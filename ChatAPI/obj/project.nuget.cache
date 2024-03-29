@@ -1,0 +1,20 @@
+{
+  "version": 2,
+  "dgSpecHash": "RWVib7cabqCyep51kq4eBKEX+cvbpY/cNabdS3p2kFydyL4uhvCqaJWe1MJ1v/8kJMr4z8S58YmVaoqUKKyPfA==",
+  "success": true,
+  "projectFilePath": "E:\\ChitChatApp\\ChatAPI\\ChatAPI.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\harik\\.nuget\\packages\\microsoft.extensions.apidescription.server\\3.0.0\\microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
+    "C:\\Users\\harik\\.nuget\\packages\\microsoft.identitymodel.abstractions\\7.5.0\\microsoft.identitymodel.abstractions.7.5.0.nupkg.sha512",
+    "C:\\Users\\harik\\.nuget\\packages\\microsoft.identitymodel.jsonwebtokens\\7.5.0\\microsoft.identitymodel.jsonwebtokens.7.5.0.nupkg.sha512",
+    "C:\\Users\\harik\\.nuget\\packages\\microsoft.identitymodel.logging\\7.5.0\\microsoft.identitymodel.logging.7.5.0.nupkg.sha512",
+    "C:\\Users\\harik\\.nuget\\packages\\microsoft.identitymodel.tokens\\7.5.0\\microsoft.identitymodel.tokens.7.5.0.nupkg.sha512",
+    "C:\\Users\\harik\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
+    "C:\\Users\\harik\\.nuget\\packages\\swashbuckle.aspnetcore\\6.2.3\\swashbuckle.aspnetcore.6.2.3.nupkg.sha512",
+    "C:\\Users\\harik\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.2.3\\swashbuckle.aspnetcore.swagger.6.2.3.nupkg.sha512",
+    "C:\\Users\\harik\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.2.3\\swashbuckle.aspnetcore.swaggergen.6.2.3.nupkg.sha512",
+    "C:\\Users\\harik\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\6.2.3\\swashbuckle.aspnetcore.swaggerui.6.2.3.nupkg.sha512",
+    "C:\\Users\\harik\\.nuget\\packages\\system.identitymodel.tokens.jwt\\7.5.0\\system.identitymodel.tokens.jwt.7.5.0.nupkg.sha512"
+  ],
+  "logs": []
+}
