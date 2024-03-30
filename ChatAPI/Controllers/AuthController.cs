@@ -1,4 +1,7 @@
 ﻿using ChatAPI.Model;
+using IdentityServer3.Core.Models;
+using IdentityServer3.Core.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.VisualBasic;
@@ -14,10 +17,21 @@ namespace ChatAPI.Controllers
     {
         public static User user = new User();
         private readonly IConfiguration _config;
-        public AuthController(IConfiguration config) 
+        private readonly IUserService _userService;
+        public AuthController(IConfiguration config, IUserService userService) 
         {
             _config = config;
+            _userService = userService;
         }
+
+        [HttpGet, Authorize]
+        public ActionResult<string> GetMe()
+        {
+            var userName = _userService.GetUserName();
+            return Ok(userName);
+        }
+
+
         [HttpPost("register")]
         public async Task<ActionResult<User>> Register(UserDto request)
         {
@@ -48,6 +62,8 @@ namespace ChatAPI.Controllers
                 return BadRequest("Wrong password!");
             }
             string token =  CreateToken(user);
+            var refreshToken = GenerateRefreshToken();
+            SetRefreshToken(refreshToken);
             return Ok(token);
         }
         private string CreateToken(User user)
@@ -67,6 +83,55 @@ namespace ChatAPI.Controllers
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);
             return jwt;
         }
+
+
+        [HttpPost("refresh-token")]
+        public async Task<ActionResult<string>> RefreshToken()
+        {
+            var refreshToken = Request.Cookies["refreshToken"];
+
+            if (!user.RefreshToken.Equals(refreshToken))
+            {
+                return Unauthorized("Invalid Refresh Token.");
+            }
+            else if (user.TokenExpires < DateTime.Now)
+            {
+                return Unauthorized("Token expired.");
+            }
+
+            string token = CreateToken(user);
+            var newRefreshToken = GenerateRefreshToken();
+            SetRefreshToken(newRefreshToken);
+
+            return Ok(token);
+        }
+
+        private RefreshToken GenerateRefreshToken()
+        {
+            var refreshToken = new RefreshToken
+            {
+                Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
+                Expires = DateTime.Now.AddDays(7),
+                Created = DateTime.Now
+            };
+
+            return refreshToken;
+        }
+
+        private void SetRefreshToken(RefreshToken newRefreshToken)
+        {
+            var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                Expires = newRefreshToken.Expires
+            };
+            Response.Cookies.Append("refreshToken", newRefreshToken.Token, cookieOptions);
+
+            user.RefreshToken = newRefreshToken.Token;
+            user.TokenCreated = newRefreshToken.Created;
+            user.TokenExpires = newRefreshToken.Expires;
+        }
+
         private bool VerifyPassordHash(string password, byte[] passwordHash, byte[] passwordSalt) 
         {
             using (var hmac = new HMACSHA512(passwordSalt))
