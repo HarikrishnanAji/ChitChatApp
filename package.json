@@ -1,0 +1,8 @@
+{
+  "devDependencies": {
+    "@types/jquery": "^3.5.29"
+  },
+  "dependencies": {
+    "@ctrl/ngx-emoji-mart": "^9.2.0"
+  }
+}
