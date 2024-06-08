@@ -1,10 +1,8 @@
 ﻿using ChatAPI.Model;
-using IdentityServer3.Core.Models;
-using IdentityServer3.Core.Services;
+using ChatAPI.Services.UserService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.VisualBasic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -24,19 +22,14 @@ namespace ChatAPI.Controllers
             _userService = userService;
         }
 
-        [HttpGet, Authorize]
-        public ActionResult<string> GetMe()
-        {
-            var userName = _userService.GetUserName();
-            return Ok(userName);
-        }
+    
 
 
         [HttpPost("register")]
         public async Task<ActionResult<User>> Register(UserDto request)
         {
             CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
-            user.Username = request.UserName;
+            user.Email = request.Email;
             user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
             return Ok(user);
@@ -53,7 +46,7 @@ namespace ChatAPI.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<string>> Login(UserDto request)
         {
-            if (!(user.Username== request.UserName))
+            if (!(user.Email== request.Email))
             {
                 return BadRequest("User not found.");
             }
